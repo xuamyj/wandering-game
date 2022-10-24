@@ -141,8 +141,7 @@ public class Board {
     return this.tryMoveToCoord(right);
   }
 
-  public bool a
-    () {
+  public bool tryMoveUp() {
     Coord Up = this.mc.getCoordForMoveUp();
     return this.tryMoveToCoord(Up);
   }
