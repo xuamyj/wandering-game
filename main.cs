@@ -12,62 +12,55 @@ class Program {
 
   static void GiveInstructions() {
     Console.WriteLine("Enter one of the following:");
-    Console.WriteLine("(w) Move forward");
+    Console.WriteLine("(w) Move up");
     Console.WriteLine("(a) Move left");
-    Console.WriteLine("(s) Move backward");
+    Console.WriteLine("(s) Move down");
     Console.WriteLine("(d) Move right");
     Console.WriteLine("(f) Pick up item");
     Console.WriteLine("(z) Quit game\n");
   }
 
-  static bool MoveForward() {
-    Console.WriteLine("You move forward.");
-    return true;
-  }
-
-  static bool MoveLeft() {
-    Console.WriteLine("You move left.");
-    return true;
-  }
-
-  static bool MoveBackward() {
-    Console.WriteLine("You move backward.");
-    return true;
-  }
-
-  static bool MoveRight() {
-    Console.WriteLine("You move right.");
-    return true;
-  }
-
-  static bool PickUpItem() {
-    Console.WriteLine("You try to pick up an item.");
-    return true;
-  }
-
   //----
 
-  static string RunTurn(int turn) {
-    Console.WriteLine($"Turn {turn}\n");
+  static string RunTurn(int turn, Board board) {
+    Console.WriteLine($"\nTurn {turn}");
 
+    board.printBoard();
+    
     GiveInstructions();
     string choice = ReadLineHelper();
 
     switch (choice) {
       case "w":
-        MoveForward();
+        if (board.tryMoveUp()) {
+          Console.WriteLine("You move up.");
+        } else {
+          Console.WriteLine("Sorry, you can't move there.");
+        }
         break;
       case "a":
-        MoveLeft();
+        if (board.tryMoveLeft()) {
+          Console.WriteLine("You move left.");
+        } else {
+          Console.WriteLine("Sorry, you can't move there.");
+        }
         break;
       case "s":
-        MoveBackward();
+        if (board.tryMoveDown()) {
+          Console.WriteLine("You move down.");
+        } else {
+          Console.WriteLine("Sorry, you can't move there.");
+        }
         break;
       case "d":
-        MoveRight();
+        if (board.tryMoveRight()) {
+          Console.WriteLine("You move right.");
+        } else {
+          Console.WriteLine("Sorry, you can't move there.");
+        }
         break;
       case "f":
-        PickUpItem();
+        board.tryPickupItem();
         break;
       case "z":
         break;
@@ -85,8 +78,6 @@ class Program {
   }
 
   //----
-
-
 
   static void Main(string[] args) {
     Wall wall1 = new Wall(new Coord(0,2));
@@ -114,7 +105,7 @@ class Program {
       board.thingsOnBoard.Add(thing.position, thing);
     }
 
-    board.printBoard();
+    // board.printBoard();
 
     //----
     
@@ -122,13 +113,13 @@ class Program {
     
     //----
     
-    // for (int turn = 1; turn < 100; turn++) {
-    //   string choice = RunTurn(turn);
-    //   if (choice == "z" && CheckQuit()) {
-    //     break;
-    //   }
-    // }
+    for (int turn = 1; turn < 100; turn++) {
+      string choice = RunTurn(turn, board);
+      if (choice == "z" && CheckQuit()) {
+        break;
+      }
+    }
     
-    // Console.WriteLine("\nOkay, thanks for playing!\n");
+    Console.WriteLine("\nOkay, thanks for playing!\n");
   }
 }

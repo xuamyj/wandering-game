@@ -47,12 +47,35 @@ public class Board {
   }
 
   // helper functions
+
+  private bool isBlocking(Coord pos) {
+    Placeable blockingThing = null;
+    if (this.thingsOnBoard.TryGetValue(pos, out var thingsOnSquare)) {
+      foreach (Placeable thing in thingsOnSquare) {
+        if (thing is IBlocking) {
+          blockingThing = thing;
+        }
+      }
+    }
+    return (blockingThing != null);
+  }
   
   // return False if the move is not valid
   // return True and change position if it is
   private bool tryMoveToCoord(Coord pos) {
-    // todo: 
-    return false;
+    if (pos.row < 0 || pos.row >= this.numRows || 
+       pos.col < 0 || pos.col >= this.numCols) { // out of bounds
+      return false; 
+    } else if (isBlocking(pos)) { // blocking
+      return false;
+    } else {
+      this.thingsOnBoard.Remove(this.mc.position, this.mc);
+      
+      this.mc.setPosition(pos);
+      this.thingsOnBoard.Add(pos, this.mc);
+      
+      return true; 
+    }
   }
 
   private void printBorder() {
@@ -81,12 +104,31 @@ public class Board {
   }
 
   // real functions
-  
+
+  // return False if the move is not valid
+  // return True and change position if it is
   public bool tryPickupItem() {
     Coord currPos = this.mc.position;
 
-    // todo: 
-    return false;
+    Placeable toPickupThing = null;
+    if (this.thingsOnBoard.TryGetValue(currPos, out var thingsOnSquare)) {
+      foreach (Placeable thing in thingsOnSquare) {
+        if (thing is IPickupable) {
+          toPickupThing = thing;
+        }
+      }
+    }
+
+    if (toPickupThing == null) {
+      Console.WriteLine("Sorry, there's nothing to pick up.");
+      
+      return false;
+    } else {
+      Console.WriteLine("You picked up a " + toPickupThing.name + "!");
+
+      this.thingsOnBoard.Remove(currPos, toPickupThing);
+      return true; 
+    }
   }
 
   public bool tryMoveLeft() {
@@ -99,7 +141,8 @@ public class Board {
     return this.tryMoveToCoord(right);
   }
 
-  public bool tryMoveUp() {
+  public bool a
+    () {
     Coord Up = this.mc.getCoordForMoveUp();
     return this.tryMoveToCoord(Up);
   }

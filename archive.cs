@@ -57,3 +57,37 @@
   //   Console.WriteLine("Down: " + mc.getCoordForMoveDown());
   //   Console.WriteLine();
   // }
+
+
+
+
+
+
+
+
+  // --------
+
+  // static bool MoveForward() {
+  //   Console.WriteLine("You move forward.");
+  //   return true;
+  // }
+
+  // static bool MoveLeft() {
+  //   Console.WriteLine("You move left.");
+  //   return true;
+  // }
+
+  // static bool MoveBackward() {
+  //   Console.WriteLine("You move backward.");
+  //   return true;
+  // }
+
+  // static bool MoveRight() {
+  //   Console.WriteLine("You move right.");
+  //   return true;
+  // }
+
+  // static bool PickUpItem() {
+  //   Console.WriteLine("You try to pick up an item.");
+  //   return true;
+  // }
